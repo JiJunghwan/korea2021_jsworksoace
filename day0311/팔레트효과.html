@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+.wrapper{
+    width: 700px;
+    height: 600px;
+    background-color: #cccccc; /* 모두 동일한 경우 절반만 적어도 인정해줌*/
+    margin: auto;
+    overflow: hidden; /* float 된 자식이 있다면 overflow을 적용하자 */
+}
+.box{
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+#content{
+    width: 100%;
+    height: 500px;
+    background-color:cornflowerblue;
+    clear:both;/* 플롯 아래로 안딸려가게함*/
+}
+</style>
+<script>
+    //함수 호출자가, 함수 내부에서 사용할 변수값을 결정지을 수 있는 함수
+    //==매개변수가 있는 함수
+function setBg(c){
+    //문서내에 content div에 배경색 적용하돼, 선택한 썸네일과 같은 색으로
+    var content = document.getElementById("content");
+    content.style.background=c;
+}
+</script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="box1" class="box" style="background-color: red;" onClick="setBg('red')"></div>
+        <div id="box2" class="box" style="background-color: orange;" onClick="setBg('orange')"></div>
+        <div id="box3" class="box" style="background-color: yellow;" onClick="setBg('yellow')"></div>
+        <div id="box4" class="box" style="background-color: green;" onClick="setBg('green')"></div>
+        <div id="box5" class="box" style="background-color: blue;" onClick="setBg('blue')"></div>
+        <div id="box6" class="box" style="background-color: navy;" onClick="setBg('navy')"></div>
+        <div id="box7" class="box" style="background-color: purple;" onClick="setBg('purple')"></div>
+        <div id="content"style="background-color: ;"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+ #wrapper{
+     background: url(../images/room.jpg);
+     width: 900px;
+     height: 800px;
+     background-size: 900px 800px;
+     margin: auto;
+     position: relative;    /*자식때문에*/
+}
+ #wrapper img{
+     width: 50px;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+}
+#surface{
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.8; /* 투명도*/
+}
+</style>
+<script>
+    var op=0.8;
+    var onOff="off";
+    // var swIng="switch_off.png"; 스위치 이미지
+    var flag=true; //true or false 값을 대입할 변수 선언
+                        //스위치를 켜고 끄는 함수
+                        //false 일때는 불끄는 효과, true일 때는 불켜는 효과
+    function turn(){
+        //투명막을 제어 : 문서내의 surface라 불리는 요소의 
+        //스타일 중 opacity 값을 불투명 0(켜기), 0.8(끄기)
+        op= (flag)? 0:0.8; // 0 (참 키고) : 0.8 (거짓 끄기);
+        document.querySelector("#surface").style.opacity=op;
+        //스위치 이미지도 제어(hint : 이 코드 역시 두개의 이미지가 나오고 말고의 문제 흑백논리 따라서 삼항연산자 추천)
+        // 결론 : 이미지명은 결정되지 않은 변수로 가자
+        // on 켜기, off 끄기
+        onOff=(flag)? "on":"off";
+        // swIng= 삼항연산자에게 맡김;  swIng=(flag)? "switch_off.png" : "switch_on.png";
+        document.querySelector("img").src=("../images/switch_"+onOff+".png")   
+        //document.querySelector("img").src="../images/+swIng;
+        flag=!flag; // 기존 값을 뒤집자. 뒤집으려면 논리값이 최고
+        
+
+    }
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="surface"></div>
+        <img src="../images/switch_off.png" alt="" onClick="turn()">
+    </div>
+</body>
+</html>

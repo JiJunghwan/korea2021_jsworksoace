@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+    <h1>윤년인가 아닌가 결과 나올곳</h1>
+
+<script>
+var result=prompt("년도를 입력하시오")
+var year = "윤년"
+
+year=(result%4==0)? "윤년":"윤년이 아";
+document.querySelector("h1").innerText=year+"임(님)";
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#wrapper{
+    width: 1000px;
+    height: 340px;
+    background-color: yellow;
+    margin: auto;
+    overflow: hidden; /* 카드에 플롯을 줘서 //49*/
+}
+</style>
+<script>
+var wrapper ; //12  랩퍼 전역변수로 빼기
+//var card;
+var cardArray=[]; // 생성된 카드를 담아둘 배열(순서를 두면, 추후 반복문으로 처리도 가능.) 여러개만들기좋음 //43 (이게 42임)
+var a = 0.1; // 부드러운 정도 (0~1 까지 1로갈수록 둔탁) // 40 - 2 (슬라이드업다운 속도조절)
+//var targetY = 0; // 텍스트 박스의 목표지점 //40 - 3 (슬라이드업다운의 목표지점)
+//var targetY = 270; // 41-2 처음에 텍스트 박스를 내려와있게할려고
+var targetY =[];// 여러개의 텍스트 카드의 목표지점을 설정해주기위해 // 52
+var imgArray=["aa.jpg","ab.jpg","ax.jpg"]; // 63 반복문에 배열로 써먹으려고
+var msgArray=[
+    "묵묵묵묵묵묵묵묵",
+    "찌찌찌찌찌찌찌찌",
+    "빠빠빠빠빠빠빠빠"
+];
+
+function init(){ //1
+    wrapper = document.getElementById("wrapper"); // 11  부착할곳 !    
+    for(var i=0;i<3;i++){ // 카드 여러개 만드는 반복문 //44
+        targetY[i]=270; // 3개의 targetY 값을 270으로 설정해주기 //53
+        //card=createCard();// 카드 한개 생성 호출 //10    생성된 카드를 전역변수로 빼놓음 // 36
+        //wrapper.appendChild(card);// 카드 한개 생성 호출 //10     // 37
+        //cardArray[i]=createCard(i); //45
+        //cardArray[i]=createCard(i, imgArray[i]); //62변수로 넣은 이미지 src를 변경시키려구
+        cardArray[i]=createCard(i, imgArray[i],msgArray[i]); // 64 카드에 메시지 다른거 넣으려고
+        wrapper.appendChild(cardArray[i]);//46
+    }
+}
+//카드 한개를 생성하는 함수 //3
+//function createCard(){
+//매개변수 index의 역할 0일때 targetY[0], 1일때 targetY[1]....을써야함
+function createCard(index, src, msg){ // i를 매개변수로 넘길라고 // 58
+    console.log("createCard호출시 넘겨받은 인덱스는", index);//59 넘어오는지 확인하기 위하여
+    
+    var card = document.createElement("div");// 이미지를 배경으로 안고있는 바깥쪽 카드 //4   // var card= 5 
+    // 전역변수의 card와 지역변수의 card는 완전 다른것이다  여기서 var를 지웠으면 전역변수에 영향을 받지만  안지우면 여기서만 받는다
+    card.style.width=300+"px"; // 카드 스타일링 //7
+    card.style.height=320+"px"; // 카드 스타일링 //8
+    //card.style.backgroundImage="url(../images/travel/aa.jpg)"; // 카드 이미지가져오기 //9
+    card.style.backgroundImage="url(../images/travel/"+src+")"; // 카드 이미지 전부 다른걸로하고싶을때 변수 넣기 61
+    card.style.backgroundSize="cover"; //13
+    //텍스트박스 때문에
+    card.style.position="relative" //텍스트박스에 포지션을 넣어서 //22
+    card.style.overflow="hidden" // 텍스트박스의 넘쳐나는 부분을 안보이게 자르려고 //23
+    card.style.float="left"; // 여러개만들때 블록지정을 없애기 위해 //48 
+    card.style.margin=5+"px"; //카드끼리 벌어지라고 마진을 넣는다 //50
+    card.style.boxSizing="border-box" //마진때문에 밀려나서 내장지방으로 넣으려고 //51
+
+    //텍스트 박스 만들기
+    var textBox=document.createElement("div"); //가려질 커튼 만들기 //16
+    textBox.style.width=300+"px";// 텍스트박스 스타일링 //16
+    textBox.style.height=320+"px";// 텍스트박스 스타일링 //17
+    textBox.style.backgroundColor="rgb(65,65,63)"; // 색상넣기 //18
+    textBox.style.opacity=0.8; // 0이 투명~~1이 불투명 //19
+    textBox.style.position="absolute"; // 포지션 지정해주기 위해서 //20
+    textBox.style.top=270+"px";// 아래쪽 위치에 지정해주기 위해서 // 21
+   // textBox.innerText="공공칠빵 으악"; // 텍스트박스에 텍스트 넣기 // 24
+    textBox.innerText=msg; // 카드별로 텍스트 넣기 // 64
+    textBox.style.color="white"; //텍스트에 색상 넣기 //25
+    textBox.style.fontSize=25+"px"; //텍스트  글씨 크기 바꾸기 //26
+    textBox.style.textAlign="center"; //텍스트  가운데 정렬 //27
+    textBox.style.boxSizing="border-box"; // 패딩을 넣기전에 내장지방으로 바꾸기28
+    textBox.style.paddingTop=10+"px" // 패딩으로 글씨좀 내리기 29
+
+    //마우스 오버 이벤트 구현 
+    textBox.addEventListener("mouseover", function(){ // 마우스 이벤트 주기 //31
+        //top좌표를 0으로 올라가 보자(부드러운 움직임은 나중에..구현)
+        //this.style.top=0+"px"; // 마우스 올리면 똭 올라가기 //32 
+        //targetY=0; // 41-3
+        targetY[index]=0; // 57
+        console.log("내가 사용할 인덱스는", index);
+    });
+    textBox.addEventListener("mouseout", function(){ // 마우스를 치우면 다시 원상복구 하려구 //33
+        //this.style.top=270+"px"; // 마우스를 떼면 다시 원상태로 내려가기 //34
+        //targetY=270; // 41-4
+        targetY[index]=270; // 60
+    });
+    
+    //조립하기 (텍스트 박스를 카드에 넣기)
+    card.appendChild(textBox); //카드를 부모 텍스트박스를 자식으로 넣기 // 30 (여기는 텍스트박스를 먼저 넣고 하나씩 확인하면서 추가해도됨. 17다음에 넣어도 괜찮)
+
+    return card; // createCard를 호출하면 리턴 카드를 통해 카드를 가져간다 //6
+}
+//부드럽게 오르 내리는 감속도 처리 함수
+function slideUpDown(){ // 35
+    // 물체위치 = 기존 물체위치 + a * (목표지점-기존물체위치)
+    //var textBox = card.children[0]; //textBox라는 안쪽div를 지칭 //38
+    //var textBox = cardArray[0].children[0]; //47
+    //console.log("움직일 대상 div는",textBox); //  콘솔로그로 확인해보기 // 39
+    //textBox.style.top = parseFloat(textBox.style.top) + a *(targetY - parseFloat(textBox.style.top))+"px"; // 40-1
+    for(var i=0;i<cardArray.length;i++){ // 3개의 카드 각자마다 움직임을 적용시키기위해//54
+        var textBox = cardArray[i].children[0]; // 칠드런은 각자가 0이다 그래서 i로 바꾸면안됨//55  
+        textBox.style.top = parseFloat(textBox.style.top) + a *(targetY[i] - parseFloat(textBox.style.top))+"px"; //  타겟Y에 배열넣어주기 //56 
+    }
+}
+window.addEventListener("load", function(){ //2
+    init(); // 14 init를 로드한다 (2번이랑 같이 해도됨)
+    setInterval("slideUpDown()", 10); // 처음부터 뛰고있어야함 (호출할때만 움직이게) 41-1
+});
+</script>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>

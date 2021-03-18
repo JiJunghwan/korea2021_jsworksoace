@@ -1,0 +1,14 @@
+<script>
+    //반복문은 처음과, 끝값을 지정해야 한다
+var n= prompt("원하시는 수를 입력하시오"); // 가운데 수 역할
+var first=n-1; //시작값
+var last=parseInt(n)+1; //끝값  ]
+        //parseInt(n) 문자열인 "n"을 정수로 변환 따라서 쌍따옴표가 제거됨
+        //prompt()에 입력된 모든~~ 데이터는 문자열 취급하므로, 반드시 
+        //정수화 시켜주는 처리를 하면 좋다 parseInt()
+for(var i=first;i<=last;i++){
+    document.write(i+"&nbsp"); //&nbsp 한칸 띄는 문자(특수문자) 두개 이상 줄 시 &nbsp;&nbsp 이런식으로 세미콜론(;)을 넣자
+
+}
+
+</script>
